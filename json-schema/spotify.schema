@@ -1,0 +1,302 @@
+{
+    "$ref": "#/definitions/Album",
+    "definitions": {
+        "ExternalUrls": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "spotify": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "spotify"
+            ],
+            "title": "external_urls"
+        },
+        "Artist": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "external_urls": {
+                    "$ref": "#/definitions/ExternalUrls"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "artist"
+                    ],
+                    "title": "type"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "external_urls",
+                "href",
+                "id",
+                "name",
+                "type",
+                "uri"
+            ],
+            "title": "artist"
+        },
+        "Copyright": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "text": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text",
+                "type"
+            ],
+            "title": "copyright"
+        },
+        "ExternalIDS": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "upc": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "upc"
+            ],
+            "title": "external_ids"
+        },
+        "Image": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "height": {
+                    "type": "integer"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "height",
+                "url",
+                "width"
+            ],
+            "title": "image"
+        },
+        "Item": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "artists": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Artist"
+                    }
+                },
+                "disc_number": {
+                    "type": "integer"
+                },
+                "duration_ms": {
+                    "type": "integer"
+                },
+                "explicit": {
+                    "type": "boolean"
+                },
+                "external_urls": {
+                    "$ref": "#/definitions/ExternalUrls"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_playable": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "preview_url": {
+                    "type": "string"
+                },
+                "track_number": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "track"
+                    ],
+                    "title": "type"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "artists",
+                "disc_number",
+                "duration_ms",
+                "explicit",
+                "external_urls",
+                "href",
+                "id",
+                "is_playable",
+                "name",
+                "preview_url",
+                "track_number",
+                "type",
+                "uri"
+            ],
+            "title": "item"
+        },
+        "Tracks": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "href": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Item"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "next": {
+                    "type": "null"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "previous": {
+                    "type": "null"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "href",
+                "items",
+                "limit",
+                "next",
+                "offset",
+                "previous",
+                "total"
+            ],
+            "title": "tracks"
+        },
+        "Album": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "album_type": {
+                    "type": "string"
+                },
+                "artists": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Artist"
+                    }
+                },
+                "copyrights": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Copyright"
+                    }
+                },
+                "external_ids": {
+                    "$ref": "#/definitions/ExternalIDS"
+                },
+                "external_urls": {
+                    "$ref": "#/definitions/ExternalUrls"
+                },
+                "genres": {
+                    "type": "array",
+                    "items": {}
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Image"
+                    }
+                },
+                "label": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "popularity": {
+                    "type": "integer"
+                },
+                "release_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "release_date_precision": {
+                    "type": "string"
+                },
+                "tracks": {
+                    "$ref": "#/definitions/Tracks"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "album_type",
+                "artists",
+                "copyrights",
+                "external_ids",
+                "external_urls",
+                "genres",
+                "href",
+                "id",
+                "images",
+                "label",
+                "name",
+                "popularity",
+                "release_date",
+                "release_date_precision",
+                "tracks",
+                "type",
+                "uri"
+            ],
+            "title": "Album"
+        }
+    }
+}

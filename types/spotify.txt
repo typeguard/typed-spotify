@@ -1,0 +1,77 @@
+class Album {
+    albumType: String
+    artists: List<Artist>
+    copyrights: List<Copyright>
+    externalIDS: ExternalIDS
+    externalUrls: ExternalUrls
+    genres: List<Any>
+    href: String
+    id: String
+    images: List<Image>
+    label: String
+    name: String
+    popularity: Int
+    releaseDate: Date
+    releaseDatePrecision: String
+    tracks: Tracks
+    type: String
+    uri: String
+}
+
+class Artist {
+    externalUrls: ExternalUrls
+    href: String
+    id: String
+    name: String
+    type: ArtistType
+    uri: String
+}
+
+class ExternalUrls {
+    spotify: String
+}
+
+class Copyright {
+    text: String
+    type: String
+}
+
+class ExternalIDS {
+    upc: String
+}
+
+class Image {
+    height: Int
+    url: String
+    width: Int
+}
+
+class Tracks {
+    href: String
+    items: List<Item>
+    limit: Int
+    next: Null
+    offset: Int
+    previous: Null
+    total: Int
+}
+
+class Item {
+    artists: List<Artist>
+    discNumber: Int
+    durationMS: Int
+    explicit: Bool
+    externalUrls: ExternalUrls
+    href: String
+    id: String
+    isPlayable: Bool
+    name: String
+    previewURL: String
+    trackNumber: Int
+    type: ItemType
+    uri: String
+}
+
+enum ArtistType = Artist
+
+enum ItemType = Track
