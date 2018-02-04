@@ -1,8 +1,16 @@
-// To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
+// To parse this JSON data, add NuGet 'Newtonsoft.Json' then do one of these:
 //
 //    using QuickType;
 //
 //    var data = Album.FromJson(jsonString);
+//
+//    var data = Artist.FromJson(jsonString);
+//
+//    var data = Playlist.FromJson(jsonString);
+//
+//    var data = Profile.FromJson(jsonString);
+//
+//    var data = Track.FromJson(jsonString);
 
 namespace QuickType
 {
@@ -18,13 +26,13 @@ namespace QuickType
         public string AlbumType { get; set; }
 
         [JsonProperty("artists")]
-        public Artist[] Artists { get; set; }
+        public Profile[] Artists { get; set; }
 
         [JsonProperty("copyrights")]
         public Copyright[] Copyrights { get; set; }
 
         [JsonProperty("external_ids")]
-        public ExternalIds ExternalIds { get; set; }
+        public AlbumExternalIds ExternalIds { get; set; }
 
         [JsonProperty("external_urls")]
         public ExternalUrls ExternalUrls { get; set; }
@@ -57,7 +65,7 @@ namespace QuickType
         public string ReleaseDatePrecision { get; set; }
 
         [JsonProperty("tracks")]
-        public Tracks Tracks { get; set; }
+        public AlbumTracks Tracks { get; set; }
 
         [JsonProperty("type")]
         public string PurpleType { get; set; }
@@ -66,7 +74,7 @@ namespace QuickType
         public string Uri { get; set; }
     }
 
-    public partial class Artist
+    public partial class Profile
     {
         [JsonProperty("external_urls")]
         public ExternalUrls ExternalUrls { get; set; }
@@ -85,12 +93,42 @@ namespace QuickType
 
         [JsonProperty("uri")]
         public string Uri { get; set; }
+
+        [JsonProperty("display_name")]
+        public string DisplayName { get; set; }
+
+        [JsonProperty("followers")]
+        public Followers Followers { get; set; }
+
+        [JsonProperty("images")]
+        public Image[] Images { get; set; }
     }
 
     public partial class ExternalUrls
     {
         [JsonProperty("spotify")]
         public string Spotify { get; set; }
+    }
+
+    public partial class Followers
+    {
+        [JsonProperty("href")]
+        public object Href { get; set; }
+
+        [JsonProperty("total")]
+        public long Total { get; set; }
+    }
+
+    public partial class Image
+    {
+        [JsonProperty("height")]
+        public long? Height { get; set; }
+
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        [JsonProperty("width")]
+        public long? Width { get; set; }
     }
 
     public partial class Copyright
@@ -102,31 +140,19 @@ namespace QuickType
         public string PurpleType { get; set; }
     }
 
-    public partial class ExternalIds
+    public partial class AlbumExternalIds
     {
         [JsonProperty("upc")]
         public string Upc { get; set; }
     }
 
-    public partial class Image
-    {
-        [JsonProperty("height")]
-        public long Height { get; set; }
-
-        [JsonProperty("url")]
-        public string Url { get; set; }
-
-        [JsonProperty("width")]
-        public long Width { get; set; }
-    }
-
-    public partial class Tracks
+    public partial class AlbumTracks
     {
         [JsonProperty("href")]
         public string Href { get; set; }
 
         [JsonProperty("items")]
-        public Item[] Items { get; set; }
+        public Track[] Items { get; set; }
 
         [JsonProperty("limit")]
         public long Limit { get; set; }
@@ -144,10 +170,10 @@ namespace QuickType
         public long Total { get; set; }
     }
 
-    public partial class Item
+    public partial class Track
     {
         [JsonProperty("artists")]
-        public Artist[] Artists { get; set; }
+        public Profile[] Artists { get; set; }
 
         [JsonProperty("disc_number")]
         public long DiscNumber { get; set; }
@@ -184,15 +210,200 @@ namespace QuickType
 
         [JsonProperty("uri")]
         public string Uri { get; set; }
+
+        [JsonProperty("album")]
+        public PurpleAlbum Album { get; set; }
+
+        [JsonProperty("external_ids")]
+        public ItemExternalIds ExternalIds { get; set; }
+
+        [JsonProperty("popularity")]
+        public long? Popularity { get; set; }
+
+        [JsonProperty("linked_from")]
+        public Profile LinkedFrom { get; set; }
     }
 
-    public enum ArtistType { Artist };
+    public partial class PurpleAlbum
+    {
+        [JsonProperty("album_type")]
+        public string AlbumType { get; set; }
+
+        [JsonProperty("artists")]
+        public Profile[] Artists { get; set; }
+
+        [JsonProperty("external_urls")]
+        public ExternalUrls ExternalUrls { get; set; }
+
+        [JsonProperty("href")]
+        public string Href { get; set; }
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("images")]
+        public Image[] Images { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("type")]
+        public string PurpleType { get; set; }
+
+        [JsonProperty("uri")]
+        public string Uri { get; set; }
+    }
+
+    public partial class ItemExternalIds
+    {
+        [JsonProperty("isrc")]
+        public string Isrc { get; set; }
+    }
+
+    public partial class Artist
+    {
+        [JsonProperty("external_urls")]
+        public ExternalUrls ExternalUrls { get; set; }
+
+        [JsonProperty("followers")]
+        public Followers Followers { get; set; }
+
+        [JsonProperty("genres")]
+        public string[] Genres { get; set; }
+
+        [JsonProperty("href")]
+        public string Href { get; set; }
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("images")]
+        public Image[] Images { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("popularity")]
+        public long Popularity { get; set; }
+
+        [JsonProperty("type")]
+        public string PurpleType { get; set; }
+
+        [JsonProperty("uri")]
+        public string Uri { get; set; }
+    }
+
+    public partial class Playlist
+    {
+        [JsonProperty("collaborative")]
+        public bool Collaborative { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        [JsonProperty("external_urls")]
+        public ExternalUrls ExternalUrls { get; set; }
+
+        [JsonProperty("followers")]
+        public Followers Followers { get; set; }
+
+        [JsonProperty("href")]
+        public string Href { get; set; }
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("images")]
+        public Image[] Images { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("owner")]
+        public Profile Owner { get; set; }
+
+        [JsonProperty("public")]
+        public bool Public { get; set; }
+
+        [JsonProperty("snapshot_id")]
+        public string SnapshotId { get; set; }
+
+        [JsonProperty("tracks")]
+        public PlaylistTracks Tracks { get; set; }
+
+        [JsonProperty("type")]
+        public string PurpleType { get; set; }
+
+        [JsonProperty("uri")]
+        public string Uri { get; set; }
+    }
+
+    public partial class PlaylistTracks
+    {
+        [JsonProperty("href")]
+        public string Href { get; set; }
+
+        [JsonProperty("items")]
+        public Item[] Items { get; set; }
+
+        [JsonProperty("limit")]
+        public long Limit { get; set; }
+
+        [JsonProperty("next")]
+        public object Next { get; set; }
+
+        [JsonProperty("offset")]
+        public long Offset { get; set; }
+
+        [JsonProperty("previous")]
+        public object Previous { get; set; }
+
+        [JsonProperty("total")]
+        public long Total { get; set; }
+    }
+
+    public partial class Item
+    {
+        [JsonProperty("added_at")]
+        public System.DateTime AddedAt { get; set; }
+
+        [JsonProperty("added_by")]
+        public Profile AddedBy { get; set; }
+
+        [JsonProperty("is_local")]
+        public bool IsLocal { get; set; }
+
+        [JsonProperty("track")]
+        public Track Track { get; set; }
+    }
+
+    public enum ArtistType { Artist, Track, User };
 
     public enum ItemType { Track };
 
     public partial class Album
     {
         public static Album FromJson(string json) => JsonConvert.DeserializeObject<Album>(json, Converter.Settings);
+    }
+
+    public partial class Artist
+    {
+        public static Artist FromJson(string json) => JsonConvert.DeserializeObject<Artist>(json, Converter.Settings);
+    }
+
+    public partial class Playlist
+    {
+        public static Playlist FromJson(string json) => JsonConvert.DeserializeObject<Playlist>(json, Converter.Settings);
+    }
+
+    public partial class Profile
+    {
+        public static Profile FromJson(string json) => JsonConvert.DeserializeObject<Profile>(json, Converter.Settings);
+    }
+
+    public partial class Track
+    {
+        public static Track FromJson(string json) => JsonConvert.DeserializeObject<Track>(json, Converter.Settings);
     }
 
     static class ArtistTypeExtensions
@@ -202,6 +413,8 @@ namespace QuickType
             switch (str)
             {
                 case "artist": return ArtistType.Artist;
+                case "track": return ArtistType.Track;
+                case "user": return ArtistType.User;
                 default: return null;
             }
         }
@@ -219,6 +432,8 @@ namespace QuickType
             switch (value)
             {
                 case ArtistType.Artist: serializer.Serialize(writer, "artist"); break;
+                case ArtistType.Track: serializer.Serialize(writer, "track"); break;
+                case ArtistType.User: serializer.Serialize(writer, "user"); break;
             }
         }
     }
@@ -254,6 +469,10 @@ namespace QuickType
     public static class Serialize
     {
         public static string ToJson(this Album self) => JsonConvert.SerializeObject(self, Converter.Settings);
+        public static string ToJson(this Artist self) => JsonConvert.SerializeObject(self, Converter.Settings);
+        public static string ToJson(this Playlist self) => JsonConvert.SerializeObject(self, Converter.Settings);
+        public static string ToJson(this Profile self) => JsonConvert.SerializeObject(self, Converter.Settings);
+        public static string ToJson(this Track self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 
     public class Converter: JsonConverter

@@ -1,5 +1,36 @@
 {
-    "$ref": "#/definitions/Album",
+    "oneOf": [
+        [
+            "Album",
+            {
+                "$ref": "#/definitions/Album"
+            }
+        ],
+        [
+            "Artist",
+            {
+                "$ref": "#/definitions/Artist"
+            }
+        ],
+        [
+            "Playlist",
+            {
+                "$ref": "#/definitions/Playlist"
+            }
+        ],
+        [
+            "Profile",
+            {
+                "$ref": "#/definitions/Profile"
+            }
+        ],
+        [
+            "Track",
+            {
+                "$ref": "#/definitions/Track"
+            }
+        ]
+    ],
     "definitions": {
         "ExternalUrls": {
             "type": "object",
@@ -14,7 +45,61 @@
             ],
             "title": "external_urls"
         },
-        "Artist": {
+        "Followers": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "href": {
+                    "type": "null"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "href",
+                "total"
+            ],
+            "title": "followers"
+        },
+        "Image": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "height": {
+                    "oneOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "title": "height"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "oneOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "title": "height"
+                }
+            },
+            "required": [
+                "height",
+                "url",
+                "width"
+            ],
+            "title": "image"
+        },
+        "Profile": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
@@ -33,23 +118,36 @@
                 "type": {
                     "type": "string",
                     "enum": [
-                        "artist"
+                        "artist",
+                        "track",
+                        "user"
                     ],
                     "title": "type"
                 },
                 "uri": {
                     "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
+                "followers": {
+                    "$ref": "#/definitions/Followers"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Image"
+                    }
                 }
             },
             "required": [
                 "external_urls",
                 "href",
                 "id",
-                "name",
                 "type",
                 "uri"
             ],
-            "title": "artist"
+            "title": "Profile"
         },
         "Copyright": {
             "type": "object",
@@ -68,7 +166,7 @@
             ],
             "title": "copyright"
         },
-        "ExternalIDS": {
+        "AlbumExternalIDS": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
@@ -81,35 +179,78 @@
             ],
             "title": "external_ids"
         },
-        "Image": {
+        "PurpleAlbum": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "height": {
-                    "type": "integer"
-                },
-                "url": {
+                "album_type": {
                     "type": "string"
                 },
-                "width": {
-                    "type": "integer"
+                "artists": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Profile"
+                    }
+                },
+                "external_urls": {
+                    "$ref": "#/definitions/ExternalUrls"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Image"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
                 }
             },
             "required": [
-                "height",
-                "url",
-                "width"
+                "album_type",
+                "artists",
+                "external_urls",
+                "href",
+                "id",
+                "images",
+                "name",
+                "type",
+                "uri"
             ],
-            "title": "image"
+            "title": "album"
         },
-        "Item": {
+        "ItemExternalIDS": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "isrc": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "isrc"
+            ],
+            "title": "external_ids"
+        },
+        "Track": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
                 "artists": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Artist"
+                        "$ref": "#/definitions/Profile"
                     }
                 },
                 "disc_number": {
@@ -137,7 +278,15 @@
                     "type": "string"
                 },
                 "preview_url": {
-                    "type": "string"
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "title": "preview_url"
                 },
                 "track_number": {
                     "type": "integer"
@@ -151,6 +300,18 @@
                 },
                 "uri": {
                     "type": "string"
+                },
+                "album": {
+                    "$ref": "#/definitions/PurpleAlbum"
+                },
+                "external_ids": {
+                    "$ref": "#/definitions/ItemExternalIDS"
+                },
+                "popularity": {
+                    "type": "integer"
+                },
+                "linked_from": {
+                    "$ref": "#/definitions/Profile"
                 }
             },
             "required": [
@@ -168,9 +329,9 @@
                 "type",
                 "uri"
             ],
-            "title": "item"
+            "title": "Track"
         },
-        "Tracks": {
+        "AlbumTracks": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
@@ -180,7 +341,7 @@
                 "items": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Item"
+                        "$ref": "#/definitions/Track"
                     }
                 },
                 "limit": {
@@ -220,7 +381,7 @@
                 "artists": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Artist"
+                        "$ref": "#/definitions/Profile"
                     }
                 },
                 "copyrights": {
@@ -230,7 +391,7 @@
                     }
                 },
                 "external_ids": {
-                    "$ref": "#/definitions/ExternalIDS"
+                    "$ref": "#/definitions/AlbumExternalIDS"
                 },
                 "external_urls": {
                     "$ref": "#/definitions/ExternalUrls"
@@ -268,7 +429,7 @@
                     "type": "string"
                 },
                 "tracks": {
-                    "$ref": "#/definitions/Tracks"
+                    "$ref": "#/definitions/AlbumTracks"
                 },
                 "type": {
                     "type": "string"
@@ -297,6 +458,195 @@
                 "uri"
             ],
             "title": "Album"
+        },
+        "Artist": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "external_urls": {
+                    "$ref": "#/definitions/ExternalUrls"
+                },
+                "followers": {
+                    "$ref": "#/definitions/Followers"
+                },
+                "genres": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Image"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "popularity": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "external_urls",
+                "followers",
+                "genres",
+                "href",
+                "id",
+                "images",
+                "name",
+                "popularity",
+                "type",
+                "uri"
+            ],
+            "title": "Artist"
+        },
+        "Item": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "added_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "added_by": {
+                    "$ref": "#/definitions/Profile"
+                },
+                "is_local": {
+                    "type": "boolean"
+                },
+                "track": {
+                    "$ref": "#/definitions/Track"
+                }
+            },
+            "required": [
+                "added_at",
+                "added_by",
+                "is_local",
+                "track"
+            ],
+            "title": "item"
+        },
+        "PlaylistTracks": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "href": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Item"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "next": {
+                    "type": "null"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "previous": {
+                    "type": "null"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "href",
+                "items",
+                "limit",
+                "next",
+                "offset",
+                "previous",
+                "total"
+            ],
+            "title": "tracks"
+        },
+        "Playlist": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "collaborative": {
+                    "type": "boolean"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "external_urls": {
+                    "$ref": "#/definitions/ExternalUrls"
+                },
+                "followers": {
+                    "$ref": "#/definitions/Followers"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Image"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner": {
+                    "$ref": "#/definitions/Profile"
+                },
+                "public": {
+                    "type": "boolean"
+                },
+                "snapshot_id": {
+                    "type": "string"
+                },
+                "tracks": {
+                    "$ref": "#/definitions/PlaylistTracks"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "collaborative",
+                "description",
+                "external_urls",
+                "followers",
+                "href",
+                "id",
+                "images",
+                "name",
+                "owner",
+                "public",
+                "snapshot_id",
+                "tracks",
+                "type",
+                "uri"
+            ],
+            "title": "Playlist"
         }
     }
 }

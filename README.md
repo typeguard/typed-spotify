@@ -5,6 +5,10 @@
 ## APIs
 
 * `Album`: https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTy?market=ES
+* `Artist`: https://api.spotify.com/v1/artists/0TnOYISbd1XYRBk9myaseg
+* `Playlist`: https://api.spotify.com/v1/users/jmperezperez/playlists/3cEYpjA9oz9GiPac4AsH4n?market=ES
+* `Profile`: https://api.spotify.com/v1/users/12139437815
+* `Track`: https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl?market=ES
 
 ## Libraries
 

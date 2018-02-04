@@ -1,17 +1,21 @@
 // To parse this data:
 //
-//   import { Convert, Album } from "./file";
+//   import { Convert, Album, Artist, Playlist, Profile, Track } from "./file";
 //
 //   const album = Convert.toAlbum(json);
+//   const artist = Convert.toArtist(json);
+//   const playlist = Convert.toPlaylist(json);
+//   const profile = Convert.toProfile(json);
+//   const track = Convert.toTrack(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
 
 export interface Album {
     album_type:             string;
-    artists:                Artist[];
+    artists:                Profile[];
     copyrights:             Copyright[];
-    external_ids:           ExternalIDS;
+    external_ids:           AlbumExternalIDS;
     external_urls:          ExternalUrls;
     genres:                 any[];
     href:                   string;
@@ -22,26 +26,42 @@ export interface Album {
     popularity:             number;
     release_date:           string;
     release_date_precision: string;
-    tracks:                 Tracks;
+    tracks:                 AlbumTracks;
     type:                   string;
     uri:                    string;
 }
 
-export interface Artist {
+export interface Profile {
     external_urls: ExternalUrls;
     href:          string;
     id:            string;
-    name:          string;
+    name?:         string;
     type:          ArtistType;
     uri:           string;
+    display_name?: string;
+    followers?:    Followers;
+    images?:       Image[];
 }
 
 export interface ExternalUrls {
     spotify: string;
 }
 
+export interface Followers {
+    href:  null;
+    total: number;
+}
+
+export interface Image {
+    height?: number;
+    url:     string;
+    width?:  number;
+}
+
 export enum ArtistType {
     Artist = "artist",
+    Track = "track",
+    User = "user",
 }
 
 export interface Copyright {
@@ -49,17 +69,139 @@ export interface Copyright {
     type: string;
 }
 
-export interface ExternalIDS {
+export interface AlbumExternalIDS {
     upc: string;
 }
 
-export interface Image {
-    height: number;
-    url:    string;
-    width:  number;
+export interface AlbumTracks {
+    href:     string;
+    items:    Track[];
+    limit:    number;
+    next:     null;
+    offset:   number;
+    previous: null;
+    total:    number;
 }
 
-export interface Tracks {
+export interface Track {
+    artists:       Profile[];
+    disc_number:   number;
+    duration_ms:   number;
+    explicit:      boolean;
+    external_urls: ExternalUrls;
+    href:          string;
+    id:            string;
+    is_playable:   boolean;
+    name:          string;
+    preview_url?:  string;
+    track_number:  number;
+    type:          ItemType;
+    uri:           string;
+    album?:        Album1;
+    external_ids?: ItemExternalIDS;
+    popularity?:   number;
+    linked_from?:  Profile;
+}
+
+export interface Album1 {
+    album_type:    string;
+    artists:       Profile[];
+    external_urls: ExternalUrls;
+    href:          string;
+    id:            string;
+    images:        Image[];
+    name:          string;
+    type:          string;
+    uri:           string;
+}
+
+export interface ItemExternalIDS {
+    isrc: string;
+}
+
+export enum ItemType {
+    Track = "track",
+}
+
+export interface Artist {
+    external_urls: ExternalUrls;
+    followers:     Followers;
+    genres:        string[];
+    href:          string;
+    id:            string;
+    images:        Image[];
+    name:          string;
+    popularity:    number;
+    type:          string;
+    uri:           string;
+}
+
+export interface ExternalUrls {
+    spotify: string;
+}
+
+export interface Followers {
+    href:  null;
+    total: number;
+}
+
+export interface Image {
+    height?: number;
+    url:     string;
+    width?:  number;
+}
+
+export interface Playlist {
+    collaborative: boolean;
+    description:   string;
+    external_urls: ExternalUrls;
+    followers:     Followers;
+    href:          string;
+    id:            string;
+    images:        Image[];
+    name:          string;
+    owner:         Profile;
+    public:        boolean;
+    snapshot_id:   string;
+    tracks:        PlaylistTracks;
+    type:          string;
+    uri:           string;
+}
+
+export interface ExternalUrls {
+    spotify: string;
+}
+
+export interface Followers {
+    href:  null;
+    total: number;
+}
+
+export interface Image {
+    height?: number;
+    url:     string;
+    width?:  number;
+}
+
+export interface Profile {
+    external_urls: ExternalUrls;
+    href:          string;
+    id:            string;
+    name?:         string;
+    type:          ArtistType;
+    uri:           string;
+    display_name?: string;
+    followers?:    Followers;
+    images?:       Image[];
+}
+
+export enum ArtistType {
+    Artist = "artist",
+    Track = "track",
+    User = "user",
+}
+
+export interface PlaylistTracks {
     href:     string;
     items:    Item[];
     limit:    number;
@@ -70,7 +212,14 @@ export interface Tracks {
 }
 
 export interface Item {
-    artists:       Artist[];
+    added_at: string;
+    added_by: Profile;
+    is_local: boolean;
+    track:    Track;
+}
+
+export interface Track {
+    artists:       Profile[];
     disc_number:   number;
     duration_ms:   number;
     explicit:      boolean;
@@ -79,10 +228,30 @@ export interface Item {
     id:            string;
     is_playable:   boolean;
     name:          string;
-    preview_url:   string;
+    preview_url?:  string;
     track_number:  number;
     type:          ItemType;
     uri:           string;
+    album?:        Album1;
+    external_ids?: ItemExternalIDS;
+    popularity?:   number;
+    linked_from?:  Profile;
+}
+
+export interface Album1 {
+    album_type:    string;
+    artists:       Profile[];
+    external_urls: ExternalUrls;
+    href:          string;
+    id:            string;
+    images:        Image[];
+    name:          string;
+    type:          string;
+    uri:           string;
+}
+
+export interface ItemExternalIDS {
+    isrc: string;
 }
 
 export enum ItemType {
@@ -97,6 +266,38 @@ export module Convert {
     }
 
     export function albumToJson(value: Album): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toArtist(json: string): Artist {
+        return cast(JSON.parse(json), O("Artist"));
+    }
+
+    export function artistToJson(value: Artist): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toPlaylist(json: string): Playlist {
+        return cast(JSON.parse(json), O("Playlist"));
+    }
+
+    export function playlistToJson(value: Playlist): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toProfile(json: string): Profile {
+        return cast(JSON.parse(json), O("Profile"));
+    }
+
+    export function profileToJson(value: Profile): string {
+        return JSON.stringify(value, null, 2);
+    }
+
+    export function toTrack(json: string): Track {
+        return cast(JSON.parse(json), O("Track"));
+    }
+
+    export function trackToJson(value: Track): string {
         return JSON.stringify(value, null, 2);
     }
     
@@ -180,9 +381,9 @@ export module Convert {
     const typeMap: any = {
         "Album": {
             album_type: "",
-            artists: A(O("Artist")),
+            artists: A(O("Profile")),
             copyrights: A(O("Copyright")),
-            external_ids: O("ExternalIDS"),
+            external_ids: O("AlbumExternalIDS"),
             external_urls: O("ExternalUrls"),
             genres: A(undefined),
             href: "",
@@ -193,34 +394,111 @@ export module Convert {
             popularity: 0,
             release_date: "",
             release_date_precision: "",
-            tracks: O("Tracks"),
+            tracks: O("AlbumTracks"),
             type: "",
             uri: "",
         },
-        "Artist": {
+        "Profile": {
             external_urls: O("ExternalUrls"),
             href: "",
             id: "",
-            name: "",
+            name: U(null, ""),
             type: E("ArtistType"),
             uri: "",
+            display_name: U(null, ""),
+            followers: U(null, O("Followers")),
+            images: U(null, A(O("Image"))),
         },
         "ExternalUrls": {
             spotify: "",
+        },
+        "Followers": {
+            href: null,
+            total: 0,
+        },
+        "Image": {
+            height: U(0, null),
+            url: "",
+            width: U(0, null),
         },
         "Copyright": {
             text: "",
             type: "",
         },
-        "ExternalIDS": {
+        "AlbumExternalIDS": {
             upc: "",
         },
-        "Image": {
-            height: 0,
-            url: "",
-            width: 0,
+        "AlbumTracks": {
+            href: "",
+            items: A(O("Track")),
+            limit: 0,
+            next: null,
+            offset: 0,
+            previous: null,
+            total: 0,
         },
-        "Tracks": {
+        "Track": {
+            artists: A(O("Profile")),
+            disc_number: 0,
+            duration_ms: 0,
+            explicit: false,
+            external_urls: O("ExternalUrls"),
+            href: "",
+            id: "",
+            is_playable: false,
+            name: "",
+            preview_url: U(null, ""),
+            track_number: 0,
+            type: E("ItemType"),
+            uri: "",
+            album: U(null, O("Album1")),
+            external_ids: U(null, O("ItemExternalIDS")),
+            popularity: U(null, 0),
+            linked_from: U(null, O("Profile")),
+        },
+        "Album1": {
+            album_type: "",
+            artists: A(O("Profile")),
+            external_urls: O("ExternalUrls"),
+            href: "",
+            id: "",
+            images: A(O("Image")),
+            name: "",
+            type: "",
+            uri: "",
+        },
+        "ItemExternalIDS": {
+            isrc: "",
+        },
+        "Artist": {
+            external_urls: O("ExternalUrls"),
+            followers: O("Followers"),
+            genres: A(""),
+            href: "",
+            id: "",
+            images: A(O("Image")),
+            name: "",
+            popularity: 0,
+            type: "",
+            uri: "",
+        },
+        "Playlist": {
+            collaborative: false,
+            description: "",
+            external_urls: O("ExternalUrls"),
+            followers: O("Followers"),
+            href: "",
+            id: "",
+            images: A(O("Image")),
+            name: "",
+            owner: O("Profile"),
+            public: false,
+            snapshot_id: "",
+            tracks: O("PlaylistTracks"),
+            type: "",
+            uri: "",
+        },
+        "PlaylistTracks": {
             href: "",
             items: A(O("Item")),
             limit: 0,
@@ -230,22 +508,15 @@ export module Convert {
             total: 0,
         },
         "Item": {
-            artists: A(O("Artist")),
-            disc_number: 0,
-            duration_ms: 0,
-            explicit: false,
-            external_urls: O("ExternalUrls"),
-            href: "",
-            id: "",
-            is_playable: false,
-            name: "",
-            preview_url: "",
-            track_number: 0,
-            type: E("ItemType"),
-            uri: "",
+            added_at: "",
+            added_by: O("Profile"),
+            is_local: false,
+            track: O("Track"),
         },
         "ArtistType": [
             ArtistType.Artist,
+            ArtistType.Track,
+            ArtistType.User,
         ],
         "ItemType": [
             ItemType.Track,
