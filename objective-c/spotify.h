@@ -23,21 +23,9 @@
 @class QTItemExternalIDS;
 @class QTItemType;
 @class QTArtist;
-@class QTExternalUrls;
-@class QTFollowers;
-@class QTImage;
 @class QTPlaylist;
-@class QTExternalUrls;
-@class QTFollowers;
-@class QTImage;
-@class QTProfile;
-@class QTArtistType;
 @class QTPlaylistTracks;
 @class QTItem;
-@class QTTrack;
-@class QTPurpleAlbum;
-@class QTItemExternalIDS;
-@class QTItemType;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -194,21 +182,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSData *_Nullable)toData:(NSError *_Nullable *)error;
 @end
 
-@interface QTExternalUrls : NSObject
-@property (nonatomic, copy) NSString *spotify;
-@end
-
-@interface QTFollowers : NSObject
-@property (nonatomic, nullable, copy) id href;
-@property (nonatomic, assign)         NSInteger total;
-@end
-
-@interface QTImage : NSObject
-@property (nonatomic, nullable, strong) NSNumber *height;
-@property (nonatomic, copy)             NSString *url;
-@property (nonatomic, nullable, strong) NSNumber *width;
-@end
-
 @interface QTPlaylist : NSObject
 @property (nonatomic, assign) BOOL isCollaborative;
 @property (nonatomic, copy)   NSString *theDescription;
@@ -231,38 +204,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSData *_Nullable)toData:(NSError *_Nullable *)error;
 @end
 
-@interface QTExternalUrls : NSObject
-@property (nonatomic, copy) NSString *spotify;
-@end
-
-@interface QTFollowers : NSObject
-@property (nonatomic, nullable, copy) id href;
-@property (nonatomic, assign)         NSInteger total;
-@end
-
-@interface QTImage : NSObject
-@property (nonatomic, nullable, strong) NSNumber *height;
-@property (nonatomic, copy)             NSString *url;
-@property (nonatomic, nullable, strong) NSNumber *width;
-@end
-
-@interface QTProfile : NSObject
-@property (nonatomic, strong)           QTExternalUrls *externalUrls;
-@property (nonatomic, copy)             NSString *href;
-@property (nonatomic, copy)             NSString *identifier;
-@property (nonatomic, nullable, copy)   NSString *name;
-@property (nonatomic, assign)           QTArtistType *type;
-@property (nonatomic, copy)             NSString *uri;
-@property (nonatomic, nullable, copy)   NSString *displayName;
-@property (nonatomic, nullable, strong) QTFollowers *followers;
-@property (nonatomic, nullable, copy)   NSArray<QTImage *> *images;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
 @interface QTPlaylistTracks : NSObject
 @property (nonatomic, copy)           NSString *href;
 @property (nonatomic, copy)           NSArray<QTItem *> *items;
@@ -278,47 +219,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) QTProfile *addedBy;
 @property (nonatomic, assign) BOOL isLocal;
 @property (nonatomic, strong) QTTrack *track;
-@end
-
-@interface QTTrack : NSObject
-@property (nonatomic, copy)             NSArray<QTProfile *> *artists;
-@property (nonatomic, assign)           NSInteger discNumber;
-@property (nonatomic, assign)           NSInteger durationMS;
-@property (nonatomic, assign)           BOOL isExplicit;
-@property (nonatomic, strong)           QTExternalUrls *externalUrls;
-@property (nonatomic, copy)             NSString *href;
-@property (nonatomic, copy)             NSString *identifier;
-@property (nonatomic, assign)           BOOL isPlayable;
-@property (nonatomic, copy)             NSString *name;
-@property (nonatomic, nullable, copy)   NSString *previewURL;
-@property (nonatomic, assign)           NSInteger trackNumber;
-@property (nonatomic, assign)           QTItemType *type;
-@property (nonatomic, copy)             NSString *uri;
-@property (nonatomic, nullable, strong) QTPurpleAlbum *album;
-@property (nonatomic, nullable, strong) QTItemExternalIDS *externalIDS;
-@property (nonatomic, nullable, strong) NSNumber *popularity;
-@property (nonatomic, nullable, strong) QTProfile *linkedFrom;
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error;
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error;
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error;
-@end
-
-@interface QTPurpleAlbum : NSObject
-@property (nonatomic, copy)   NSString *albumType;
-@property (nonatomic, copy)   NSArray<QTProfile *> *artists;
-@property (nonatomic, strong) QTExternalUrls *externalUrls;
-@property (nonatomic, copy)   NSString *href;
-@property (nonatomic, copy)   NSString *identifier;
-@property (nonatomic, copy)   NSArray<QTImage *> *images;
-@property (nonatomic, copy)   NSString *name;
-@property (nonatomic, copy)   NSString *type;
-@property (nonatomic, copy)   NSString *uri;
-@end
-
-@interface QTItemExternalIDS : NSObject
-@property (nonatomic, copy) NSString *isrc;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -122,21 +122,6 @@ namespace quicktype {
         std::string uri;
     };
 
-    struct ExternalUrls {
-        std::string spotify;
-    };
-
-    struct Followers {
-        nlohmann::json href;
-        int64_t total;
-    };
-
-    struct Image {
-        std::unique_ptr<int64_t> height;
-        std::string url;
-        std::unique_ptr<int64_t> width;
-    };
-
     struct Artist {
         struct ExternalUrls external_urls;
         struct Followers followers;
@@ -148,73 +133,6 @@ namespace quicktype {
         int64_t popularity;
         std::string type;
         std::string uri;
-    };
-
-    struct ExternalUrls {
-        std::string spotify;
-    };
-
-    struct Followers {
-        nlohmann::json href;
-        int64_t total;
-    };
-
-    struct Image {
-        std::unique_ptr<int64_t> height;
-        std::string url;
-        std::unique_ptr<int64_t> width;
-    };
-
-    enum class ArtistType { ARTIST, TRACK, USER };
-
-    struct Profile {
-        struct ExternalUrls external_urls;
-        std::string href;
-        std::string id;
-        std::unique_ptr<std::string> name;
-        ArtistType type;
-        std::string uri;
-        std::unique_ptr<std::string> display_name;
-        std::unique_ptr<struct Followers> followers;
-        std::unique_ptr<std::vector<struct Image>> images;
-    };
-
-    struct PurpleAlbum {
-        std::string album_type;
-        std::vector<struct Profile> artists;
-        struct ExternalUrls external_urls;
-        std::string href;
-        std::string id;
-        std::vector<struct Image> images;
-        std::string name;
-        std::string type;
-        std::string uri;
-    };
-
-    struct ItemExternalIDS {
-        std::string isrc;
-    };
-
-    enum class ItemType { TRACK };
-
-    struct Track {
-        std::vector<struct Profile> artists;
-        int64_t disc_number;
-        int64_t duration_ms;
-        bool purple_explicit;
-        struct ExternalUrls external_urls;
-        std::string href;
-        std::string id;
-        bool is_playable;
-        std::string name;
-        std::unique_ptr<std::string> preview_url;
-        int64_t track_number;
-        ItemType type;
-        std::string uri;
-        std::unique_ptr<struct PurpleAlbum> album;
-        std::unique_ptr<struct ItemExternalIDS> external_ids;
-        std::unique_ptr<int64_t> popularity;
-        std::unique_ptr<struct Profile> linked_from;
     };
 
     struct Item {

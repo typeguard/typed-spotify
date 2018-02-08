@@ -174,21 +174,6 @@ type alias Artist =
     , uri : String
     }
 
-type alias ExternalUrls =
-    { spotify : String
-    }
-
-type alias Followers =
-    { href : ()
-    , total : Int
-    }
-
-type alias Image =
-    { height : Maybe Int
-    , url : String
-    , width : Maybe Int
-    }
-
 type alias Playlist =
     { collaborative : Bool
     , description : String
@@ -206,38 +191,6 @@ type alias Playlist =
     , uri : String
     }
 
-type alias ExternalUrls =
-    { spotify : String
-    }
-
-type alias Followers =
-    { href : ()
-    , total : Int
-    }
-
-type alias Image =
-    { height : Maybe Int
-    , url : String
-    , width : Maybe Int
-    }
-
-type alias Profile =
-    { externalUrls : ExternalUrls
-    , href : String
-    , id : String
-    , name : Maybe String
-    , purpleType : ArtistType
-    , uri : String
-    , displayName : Maybe String
-    , followers : Maybe Followers
-    , images : Maybe (Array Image)
-    }
-
-type ArtistType
-    = PurpleArtist
-    | PurpleTrack
-    | User
-
 type alias PlaylistTracks =
     { href : String
     , items : Array Item
@@ -254,45 +207,6 @@ type alias Item =
     , isLocal : Bool
     , track : Track
     }
-
-type alias Track =
-    { artists : Array Profile
-    , discNumber : Int
-    , durationMS : Int
-    , explicit : Bool
-    , externalUrls : ExternalUrls
-    , href : String
-    , id : String
-    , isPlayable : Bool
-    , name : String
-    , previewURL : Maybe String
-    , trackNumber : Int
-    , purpleType : ItemType
-    , uri : String
-    , album : Maybe PurpleAlbum
-    , externalIDS : Maybe ItemExternalIDS
-    , popularity : Maybe Int
-    , linkedFrom : Maybe Profile
-    }
-
-type alias PurpleAlbum =
-    { albumType : String
-    , artists : Array Profile
-    , externalUrls : ExternalUrls
-    , href : String
-    , id : String
-    , images : Array Image
-    , name : String
-    , purpleType : String
-    , uri : String
-    }
-
-type alias ItemExternalIDS =
-    { isrc : String
-    }
-
-type ItemType
-    = FluffyTrack
 
 -- decoders and encoders
 
@@ -607,45 +521,6 @@ encodeArtist x =
         , ("uri", Jenc.string x.uri)
         ]
 
-externalUrls : Jdec.Decoder ExternalUrls
-externalUrls =
-    Jpipe.decode ExternalUrls
-        |> Jpipe.required "spotify" Jdec.string
-
-encodeExternalUrls : ExternalUrls -> Jenc.Value
-encodeExternalUrls x =
-    Jenc.object
-        [ ("spotify", Jenc.string x.spotify)
-        ]
-
-followers : Jdec.Decoder Followers
-followers =
-    Jpipe.decode Followers
-        |> Jpipe.optional "href" (Jdec.null ()) ()
-        |> Jpipe.required "total" Jdec.int
-
-encodeFollowers : Followers -> Jenc.Value
-encodeFollowers x =
-    Jenc.object
-        [ ("href", always Jenc.null x.href)
-        , ("total", Jenc.int x.total)
-        ]
-
-image : Jdec.Decoder Image
-image =
-    Jpipe.decode Image
-        |> Jpipe.optional "height" (Jdec.nullable Jdec.int) Nothing
-        |> Jpipe.required "url" Jdec.string
-        |> Jpipe.optional "width" (Jdec.nullable Jdec.int) Nothing
-
-encodeImage : Image -> Jenc.Value
-encodeImage x =
-    Jenc.object
-        [ ("height", makeNullableEncoder Jenc.int x.height)
-        , ("url", Jenc.string x.url)
-        , ("width", makeNullableEncoder Jenc.int x.width)
-        ]
-
 playlist : Jdec.Decoder Playlist
 playlist =
     Jpipe.decode Playlist
@@ -682,89 +557,6 @@ encodePlaylist x =
         , ("type", Jenc.string x.purpleType)
         , ("uri", Jenc.string x.uri)
         ]
-
-externalUrls : Jdec.Decoder ExternalUrls
-externalUrls =
-    Jpipe.decode ExternalUrls
-        |> Jpipe.required "spotify" Jdec.string
-
-encodeExternalUrls : ExternalUrls -> Jenc.Value
-encodeExternalUrls x =
-    Jenc.object
-        [ ("spotify", Jenc.string x.spotify)
-        ]
-
-followers : Jdec.Decoder Followers
-followers =
-    Jpipe.decode Followers
-        |> Jpipe.optional "href" (Jdec.null ()) ()
-        |> Jpipe.required "total" Jdec.int
-
-encodeFollowers : Followers -> Jenc.Value
-encodeFollowers x =
-    Jenc.object
-        [ ("href", always Jenc.null x.href)
-        , ("total", Jenc.int x.total)
-        ]
-
-image : Jdec.Decoder Image
-image =
-    Jpipe.decode Image
-        |> Jpipe.optional "height" (Jdec.nullable Jdec.int) Nothing
-        |> Jpipe.required "url" Jdec.string
-        |> Jpipe.optional "width" (Jdec.nullable Jdec.int) Nothing
-
-encodeImage : Image -> Jenc.Value
-encodeImage x =
-    Jenc.object
-        [ ("height", makeNullableEncoder Jenc.int x.height)
-        , ("url", Jenc.string x.url)
-        , ("width", makeNullableEncoder Jenc.int x.width)
-        ]
-
-profile : Jdec.Decoder Profile
-profile =
-    Jpipe.decode Profile
-        |> Jpipe.required "external_urls" externalUrls
-        |> Jpipe.required "href" Jdec.string
-        |> Jpipe.required "id" Jdec.string
-        |> Jpipe.optional "name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.required "type" artistType
-        |> Jpipe.required "uri" Jdec.string
-        |> Jpipe.optional "display_name" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.optional "followers" (Jdec.nullable followers) Nothing
-        |> Jpipe.optional "images" (Jdec.nullable (Jdec.array image)) Nothing
-
-encodeProfile : Profile -> Jenc.Value
-encodeProfile x =
-    Jenc.object
-        [ ("external_urls", encodeExternalUrls x.externalUrls)
-        , ("href", Jenc.string x.href)
-        , ("id", Jenc.string x.id)
-        , ("name", makeNullableEncoder Jenc.string x.name)
-        , ("type", encodeArtistType x.purpleType)
-        , ("uri", Jenc.string x.uri)
-        , ("display_name", makeNullableEncoder Jenc.string x.displayName)
-        , ("followers", makeNullableEncoder encodeFollowers x.followers)
-        , ("images", makeNullableEncoder (makeArrayEncoder encodeImage) x.images)
-        ]
-
-artistType : Jdec.Decoder ArtistType
-artistType =
-    Jdec.string
-        |> Jdec.andThen (\str ->
-            case str of
-                "artist" -> Jdec.succeed PurpleArtist
-                "track" -> Jdec.succeed PurpleTrack
-                "user" -> Jdec.succeed User
-                somethingElse -> Jdec.fail <| "Invalid ArtistType: " ++ somethingElse
-        )
-
-encodeArtistType : ArtistType -> Jenc.Value
-encodeArtistType x = case x of
-    PurpleArtist -> Jenc.string "artist"
-    PurpleTrack -> Jenc.string "track"
-    User -> Jenc.string "user"
 
 playlistTracks : Jdec.Decoder PlaylistTracks
 playlistTracks =
@@ -805,100 +597,6 @@ encodeItem x =
         , ("is_local", Jenc.bool x.isLocal)
         , ("track", encodeTrack x.track)
         ]
-
-track : Jdec.Decoder Track
-track =
-    Jpipe.decode Track
-        |> Jpipe.required "artists" (Jdec.array profile)
-        |> Jpipe.required "disc_number" Jdec.int
-        |> Jpipe.required "duration_ms" Jdec.int
-        |> Jpipe.required "explicit" Jdec.bool
-        |> Jpipe.required "external_urls" externalUrls
-        |> Jpipe.required "href" Jdec.string
-        |> Jpipe.required "id" Jdec.string
-        |> Jpipe.required "is_playable" Jdec.bool
-        |> Jpipe.required "name" Jdec.string
-        |> Jpipe.optional "preview_url" (Jdec.nullable Jdec.string) Nothing
-        |> Jpipe.required "track_number" Jdec.int
-        |> Jpipe.required "type" itemType
-        |> Jpipe.required "uri" Jdec.string
-        |> Jpipe.optional "album" (Jdec.nullable purpleAlbum) Nothing
-        |> Jpipe.optional "external_ids" (Jdec.nullable itemExternalIDS) Nothing
-        |> Jpipe.optional "popularity" (Jdec.nullable Jdec.int) Nothing
-        |> Jpipe.optional "linked_from" (Jdec.nullable profile) Nothing
-
-encodeTrack : Track -> Jenc.Value
-encodeTrack x =
-    Jenc.object
-        [ ("artists", makeArrayEncoder encodeProfile x.artists)
-        , ("disc_number", Jenc.int x.discNumber)
-        , ("duration_ms", Jenc.int x.durationMS)
-        , ("explicit", Jenc.bool x.explicit)
-        , ("external_urls", encodeExternalUrls x.externalUrls)
-        , ("href", Jenc.string x.href)
-        , ("id", Jenc.string x.id)
-        , ("is_playable", Jenc.bool x.isPlayable)
-        , ("name", Jenc.string x.name)
-        , ("preview_url", makeNullableEncoder Jenc.string x.previewURL)
-        , ("track_number", Jenc.int x.trackNumber)
-        , ("type", encodeItemType x.purpleType)
-        , ("uri", Jenc.string x.uri)
-        , ("album", makeNullableEncoder encodePurpleAlbum x.album)
-        , ("external_ids", makeNullableEncoder encodeItemExternalIDS x.externalIDS)
-        , ("popularity", makeNullableEncoder Jenc.int x.popularity)
-        , ("linked_from", makeNullableEncoder encodeProfile x.linkedFrom)
-        ]
-
-purpleAlbum : Jdec.Decoder PurpleAlbum
-purpleAlbum =
-    Jpipe.decode PurpleAlbum
-        |> Jpipe.required "album_type" Jdec.string
-        |> Jpipe.required "artists" (Jdec.array profile)
-        |> Jpipe.required "external_urls" externalUrls
-        |> Jpipe.required "href" Jdec.string
-        |> Jpipe.required "id" Jdec.string
-        |> Jpipe.required "images" (Jdec.array image)
-        |> Jpipe.required "name" Jdec.string
-        |> Jpipe.required "type" Jdec.string
-        |> Jpipe.required "uri" Jdec.string
-
-encodePurpleAlbum : PurpleAlbum -> Jenc.Value
-encodePurpleAlbum x =
-    Jenc.object
-        [ ("album_type", Jenc.string x.albumType)
-        , ("artists", makeArrayEncoder encodeProfile x.artists)
-        , ("external_urls", encodeExternalUrls x.externalUrls)
-        , ("href", Jenc.string x.href)
-        , ("id", Jenc.string x.id)
-        , ("images", makeArrayEncoder encodeImage x.images)
-        , ("name", Jenc.string x.name)
-        , ("type", Jenc.string x.purpleType)
-        , ("uri", Jenc.string x.uri)
-        ]
-
-itemExternalIDS : Jdec.Decoder ItemExternalIDS
-itemExternalIDS =
-    Jpipe.decode ItemExternalIDS
-        |> Jpipe.required "isrc" Jdec.string
-
-encodeItemExternalIDS : ItemExternalIDS -> Jenc.Value
-encodeItemExternalIDS x =
-    Jenc.object
-        [ ("isrc", Jenc.string x.isrc)
-        ]
-
-itemType : Jdec.Decoder ItemType
-itemType =
-    Jdec.string
-        |> Jdec.andThen (\str ->
-            case str of
-                "track" -> Jdec.succeed FluffyTrack
-                somethingElse -> Jdec.fail <| "Invalid ItemType: " ++ somethingElse
-        )
-
-encodeItemType : ItemType -> Jenc.Value
-encodeItemType x = case x of
-    FluffyTrack -> Jenc.string "track"
 
 --- encoder helpers
 

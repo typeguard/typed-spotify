@@ -136,21 +136,6 @@ export interface Artist {
     uri:           string;
 }
 
-export interface ExternalUrls {
-    spotify: string;
-}
-
-export interface Followers {
-    href:  null;
-    total: number;
-}
-
-export interface Image {
-    height?: number;
-    url:     string;
-    width?:  number;
-}
-
 export interface Playlist {
     collaborative: boolean;
     description:   string;
@@ -168,39 +153,6 @@ export interface Playlist {
     uri:           string;
 }
 
-export interface ExternalUrls {
-    spotify: string;
-}
-
-export interface Followers {
-    href:  null;
-    total: number;
-}
-
-export interface Image {
-    height?: number;
-    url:     string;
-    width?:  number;
-}
-
-export interface Profile {
-    external_urls: ExternalUrls;
-    href:          string;
-    id:            string;
-    name?:         string;
-    type:          ArtistType;
-    uri:           string;
-    display_name?: string;
-    followers?:    Followers;
-    images?:       Image[];
-}
-
-export enum ArtistType {
-    Artist = "artist",
-    Track = "track",
-    User = "user",
-}
-
 export interface PlaylistTracks {
     href:     string;
     items:    Item[];
@@ -216,46 +168,6 @@ export interface Item {
     added_by: Profile;
     is_local: boolean;
     track:    Track;
-}
-
-export interface Track {
-    artists:       Profile[];
-    disc_number:   number;
-    duration_ms:   number;
-    explicit:      boolean;
-    external_urls: ExternalUrls;
-    href:          string;
-    id:            string;
-    is_playable:   boolean;
-    name:          string;
-    preview_url?:  string;
-    track_number:  number;
-    type:          ItemType;
-    uri:           string;
-    album?:        Album1;
-    external_ids?: ItemExternalIDS;
-    popularity?:   number;
-    linked_from?:  Profile;
-}
-
-export interface Album1 {
-    album_type:    string;
-    artists:       Profile[];
-    external_urls: ExternalUrls;
-    href:          string;
-    id:            string;
-    images:        Image[];
-    name:          string;
-    type:          string;
-    uri:           string;
-}
-
-export interface ItemExternalIDS {
-    isrc: string;
-}
-
-export enum ItemType {
-    Track = "track",
 }
 
 // Converts JSON strings to/from your types
