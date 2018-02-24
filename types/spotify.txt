@@ -1,152 +1,24 @@
 class Album {
-    albumType: String
-    artists: List<Profile>
-    copyrights: List<Copyright>
-    externalIDS: AlbumExternalIDS
-    externalUrls: ExternalUrls
-    genres: List<Any>
-    href: String
-    id: String
-    images: List<Image>
-    label: String
-    name: String
-    popularity: Int
-    releaseDate: Date
-    releaseDatePrecision: String
-    tracks: AlbumTracks
-    type: String
-    uri: String
+    error: Error
 }
 
-class Profile {
-    externalUrls: ExternalUrls
-    href: String
-    id: String
-    name?: String
-    type: ArtistType
-    uri: String
-    displayName?: String
-    followers?: Followers
-    images?: List<Image>
-}
-
-class ExternalUrls {
-    spotify: String
-}
-
-class Followers {
-    href: Null
-    total: Int
-}
-
-class Image {
-    height: Maybe<Int>
-    url: String
-    width: Maybe<Int>
-}
-
-class Copyright {
-    text: String
-    type: String
-}
-
-class AlbumExternalIDS {
-    upc: String
-}
-
-class AlbumTracks {
-    href: String
-    items: List<Track>
-    limit: Int
-    next: Null
-    offset: Int
-    previous: Null
-    total: Int
-}
-
-class Track {
-    artists: List<Profile>
-    discNumber: Int
-    durationMS: Int
-    explicit: Bool
-    externalUrls: ExternalUrls
-    href: String
-    id: String
-    isPlayable: Bool
-    name: String
-    previewURL: Maybe<String>
-    trackNumber: Int
-    type: ItemType
-    uri: String
-    album?: Album1
-    externalIDS?: ItemExternalIDS
-    popularity?: Int
-    linkedFrom?: Profile
-}
-
-class Album1 {
-    albumType: String
-    artists: List<Profile>
-    externalUrls: ExternalUrls
-    href: String
-    id: String
-    images: List<Image>
-    name: String
-    type: String
-    uri: String
-}
-
-class ItemExternalIDS {
-    isrc: String
+class Error {
+    status: Int
+    message: String
 }
 
 class Artist {
-    externalUrls: ExternalUrls
-    followers: Followers
-    genres: List<String>
-    href: String
-    id: String
-    images: List<Image>
-    name: String
-    popularity: Int
-    type: String
-    uri: String
+    error: Error
 }
 
 class Playlist {
-    collaborative: Bool
-    description: String
-    externalUrls: ExternalUrls
-    followers: Followers
-    href: String
-    id: String
-    images: List<Image>
-    name: String
-    owner: Profile
-    public: Bool
-    snapshotID: String
-    tracks: PlaylistTracks
-    type: String
-    uri: String
+    error: Error
 }
 
-class PlaylistTracks {
-    href: String
-    items: List<Item>
-    limit: Int
-    next: Null
-    offset: Int
-    previous: Null
-    total: Int
+class Profile {
+    error: Error
 }
 
-class Item {
-    addedAt: DateTime
-    addedBy: Profile
-    isLocal: Bool
-    track: Track
+class Track {
+    error: Error
 }
-
-enum ArtistType = Artist | Track | User
-
-enum ItemType = Track

@@ -12,169 +12,35 @@
 // match the expected interface, even if the JSON is valid.
 
 export interface Album {
-    album_type:             string;
-    artists:                Profile[];
-    copyrights:             Copyright[];
-    external_ids:           AlbumExternalIDS;
-    external_urls:          ExternalUrls;
-    genres:                 any[];
-    href:                   string;
-    id:                     string;
-    images:                 Image[];
-    label:                  string;
-    name:                   string;
-    popularity:             number;
-    release_date:           string;
-    release_date_precision: string;
-    tracks:                 AlbumTracks;
-    type:                   string;
-    uri:                    string;
+    error: Error;
 }
 
-export interface Profile {
-    external_urls: ExternalUrls;
-    href:          string;
-    id:            string;
-    name?:         string;
-    type:          ArtistType;
-    uri:           string;
-    display_name?: string;
-    followers?:    Followers;
-    images?:       Image[];
-}
-
-export interface ExternalUrls {
-    spotify: string;
-}
-
-export interface Followers {
-    href:  null;
-    total: number;
-}
-
-export interface Image {
-    height?: number;
-    url:     string;
-    width?:  number;
-}
-
-export enum ArtistType {
-    Artist = "artist",
-    Track = "track",
-    User = "user",
-}
-
-export interface Copyright {
-    text: string;
-    type: string;
-}
-
-export interface AlbumExternalIDS {
-    upc: string;
-}
-
-export interface AlbumTracks {
-    href:     string;
-    items:    Track[];
-    limit:    number;
-    next:     null;
-    offset:   number;
-    previous: null;
-    total:    number;
-}
-
-export interface Track {
-    artists:       Profile[];
-    disc_number:   number;
-    duration_ms:   number;
-    explicit:      boolean;
-    external_urls: ExternalUrls;
-    href:          string;
-    id:            string;
-    is_playable:   boolean;
-    name:          string;
-    preview_url?:  string;
-    track_number:  number;
-    type:          ItemType;
-    uri:           string;
-    album?:        Album1;
-    external_ids?: ItemExternalIDS;
-    popularity?:   number;
-    linked_from?:  Profile;
-}
-
-export interface Album1 {
-    album_type:    string;
-    artists:       Profile[];
-    external_urls: ExternalUrls;
-    href:          string;
-    id:            string;
-    images:        Image[];
-    name:          string;
-    type:          string;
-    uri:           string;
-}
-
-export interface ItemExternalIDS {
-    isrc: string;
-}
-
-export enum ItemType {
-    Track = "track",
+export interface Error {
+    status:  number;
+    message: string;
 }
 
 export interface Artist {
-    external_urls: ExternalUrls;
-    followers:     Followers;
-    genres:        string[];
-    href:          string;
-    id:            string;
-    images:        Image[];
-    name:          string;
-    popularity:    number;
-    type:          string;
-    uri:           string;
+    error: Error;
 }
 
 export interface Playlist {
-    collaborative: boolean;
-    description:   string;
-    external_urls: ExternalUrls;
-    followers:     Followers;
-    href:          string;
-    id:            string;
-    images:        Image[];
-    name:          string;
-    owner:         Profile;
-    public:        boolean;
-    snapshot_id:   string;
-    tracks:        PlaylistTracks;
-    type:          string;
-    uri:           string;
+    error: Error;
 }
 
-export interface PlaylistTracks {
-    href:     string;
-    items:    Item[];
-    limit:    number;
-    next:     null;
-    offset:   number;
-    previous: null;
-    total:    number;
+export interface Profile {
+    error: Error;
 }
 
-export interface Item {
-    added_at: string;
-    added_by: Profile;
-    is_local: boolean;
-    track:    Track;
+export interface Track {
+    error: Error;
 }
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export module Convert {
     export function toAlbum(json: string): Album {
-        return cast(JSON.parse(json), O("Album"));
+        return cast(JSON.parse(json), o("Album"));
     }
 
     export function albumToJson(value: Album): string {
@@ -182,7 +48,7 @@ export module Convert {
     }
 
     export function toArtist(json: string): Artist {
-        return cast(JSON.parse(json), O("Artist"));
+        return cast(JSON.parse(json), o("Artist"));
     }
 
     export function artistToJson(value: Artist): string {
@@ -190,7 +56,7 @@ export module Convert {
     }
 
     export function toPlaylist(json: string): Playlist {
-        return cast(JSON.parse(json), O("Playlist"));
+        return cast(JSON.parse(json), o("Playlist"));
     }
 
     export function playlistToJson(value: Playlist): string {
@@ -198,7 +64,7 @@ export module Convert {
     }
 
     export function toProfile(json: string): Profile {
-        return cast(JSON.parse(json), O("Profile"));
+        return cast(JSON.parse(json), o("Profile"));
     }
 
     export function profileToJson(value: Profile): string {
@@ -206,7 +72,7 @@ export module Convert {
     }
 
     export function toTrack(json: string): Track {
-        return cast(JSON.parse(json), O("Track"));
+        return cast(JSON.parse(json), o("Track"));
     }
 
     export function trackToJson(value: Track): string {
@@ -247,7 +113,7 @@ export module Convert {
 
     function isValidArray(typ: any, val: any): boolean {
         // val must be an array with no invalid elements
-        return Array.isArray(val) && val.every((element, i) => {
+        return Array.isArray(val) && val.every(element => {
             return isValid(typ, element);
         });
     }
@@ -270,168 +136,45 @@ export module Convert {
         });
     }
 
-    function A(typ: any) {
+    function a(typ: any) {
         return { typ, isArray: true };
     }
 
-    function E(name: string) {
+    function e(name: string) {
         return { name, isEnum: true };
     }
 
-    function U(...typs: any[]) {
+    function u(...typs: any[]) {
         return { typs, isUnion: true };
     }
 
-    function M(typ: any) {
+    function m(typ: any) {
         return { typ, isMap: true };
     }
 
-    function O(className: string) {
+    function o(className: string) {
         return { cls: className, isObject: true };
     }
 
     const typeMap: any = {
         "Album": {
-            album_type: "",
-            artists: A(O("Profile")),
-            copyrights: A(O("Copyright")),
-            external_ids: O("AlbumExternalIDS"),
-            external_urls: O("ExternalUrls"),
-            genres: A(undefined),
-            href: "",
-            id: "",
-            images: A(O("Image")),
-            label: "",
-            name: "",
-            popularity: 0,
-            release_date: "",
-            release_date_precision: "",
-            tracks: O("AlbumTracks"),
-            type: "",
-            uri: "",
+            error: o("Error"),
         },
-        "Profile": {
-            external_urls: O("ExternalUrls"),
-            href: "",
-            id: "",
-            name: U(null, ""),
-            type: E("ArtistType"),
-            uri: "",
-            display_name: U(null, ""),
-            followers: U(null, O("Followers")),
-            images: U(null, A(O("Image"))),
-        },
-        "ExternalUrls": {
-            spotify: "",
-        },
-        "Followers": {
-            href: null,
-            total: 0,
-        },
-        "Image": {
-            height: U(0, null),
-            url: "",
-            width: U(0, null),
-        },
-        "Copyright": {
-            text: "",
-            type: "",
-        },
-        "AlbumExternalIDS": {
-            upc: "",
-        },
-        "AlbumTracks": {
-            href: "",
-            items: A(O("Track")),
-            limit: 0,
-            next: null,
-            offset: 0,
-            previous: null,
-            total: 0,
-        },
-        "Track": {
-            artists: A(O("Profile")),
-            disc_number: 0,
-            duration_ms: 0,
-            explicit: false,
-            external_urls: O("ExternalUrls"),
-            href: "",
-            id: "",
-            is_playable: false,
-            name: "",
-            preview_url: U(null, ""),
-            track_number: 0,
-            type: E("ItemType"),
-            uri: "",
-            album: U(null, O("Album1")),
-            external_ids: U(null, O("ItemExternalIDS")),
-            popularity: U(null, 0),
-            linked_from: U(null, O("Profile")),
-        },
-        "Album1": {
-            album_type: "",
-            artists: A(O("Profile")),
-            external_urls: O("ExternalUrls"),
-            href: "",
-            id: "",
-            images: A(O("Image")),
-            name: "",
-            type: "",
-            uri: "",
-        },
-        "ItemExternalIDS": {
-            isrc: "",
+        "Error": {
+            status: 0,
+            message: "",
         },
         "Artist": {
-            external_urls: O("ExternalUrls"),
-            followers: O("Followers"),
-            genres: A(""),
-            href: "",
-            id: "",
-            images: A(O("Image")),
-            name: "",
-            popularity: 0,
-            type: "",
-            uri: "",
+            error: o("Error"),
         },
         "Playlist": {
-            collaborative: false,
-            description: "",
-            external_urls: O("ExternalUrls"),
-            followers: O("Followers"),
-            href: "",
-            id: "",
-            images: A(O("Image")),
-            name: "",
-            owner: O("Profile"),
-            public: false,
-            snapshot_id: "",
-            tracks: O("PlaylistTracks"),
-            type: "",
-            uri: "",
+            error: o("Error"),
         },
-        "PlaylistTracks": {
-            href: "",
-            items: A(O("Item")),
-            limit: 0,
-            next: null,
-            offset: 0,
-            previous: null,
-            total: 0,
+        "Profile": {
+            error: o("Error"),
         },
-        "Item": {
-            added_at: "",
-            added_by: O("Profile"),
-            is_local: false,
-            track: O("Track"),
+        "Track": {
+            error: o("Error"),
         },
-        "ArtistType": [
-            ArtistType.Artist,
-            ArtistType.Track,
-            ArtistType.User,
-        ],
-        "ItemType": [
-            ItemType.Track,
-        ],
     };
 }

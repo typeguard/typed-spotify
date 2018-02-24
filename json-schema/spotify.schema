@@ -32,430 +32,33 @@
         ]
     ],
     "definitions": {
-        "ExternalUrls": {
+        "Error": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "spotify": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "spotify"
-            ],
-            "title": "external_urls"
-        },
-        "Followers": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "href": {
-                    "type": "null"
-                },
-                "total": {
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "href",
-                "total"
-            ],
-            "title": "followers"
-        },
-        "Image": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "height": {
-                    "oneOf": [
-                        {
-                            "type": "integer"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "title": "height"
-                },
-                "url": {
-                    "type": "string"
-                },
-                "width": {
-                    "oneOf": [
-                        {
-                            "type": "integer"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "title": "height"
-                }
-            },
-            "required": [
-                "height",
-                "url",
-                "width"
-            ],
-            "title": "image"
-        },
-        "Profile": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "external_urls": {
-                    "$ref": "#/definitions/ExternalUrls"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string",
-                    "enum": [
-                        "artist",
-                        "track",
-                        "user"
-                    ],
-                    "title": "type"
-                },
-                "uri": {
-                    "type": "string"
-                },
-                "display_name": {
-                    "type": "string"
-                },
-                "followers": {
-                    "$ref": "#/definitions/Followers"
-                },
-                "images": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Image"
-                    }
-                }
-            },
-            "required": [
-                "external_urls",
-                "href",
-                "id",
-                "type",
-                "uri"
-            ],
-            "title": "Profile"
-        },
-        "Copyright": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "text": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "text",
-                "type"
-            ],
-            "title": "copyright"
-        },
-        "AlbumExternalIDS": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "upc": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "upc"
-            ],
-            "title": "external_ids"
-        },
-        "PurpleAlbum": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "album_type": {
-                    "type": "string"
-                },
-                "artists": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Profile"
-                    }
-                },
-                "external_urls": {
-                    "$ref": "#/definitions/ExternalUrls"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "images": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Image"
-                    }
-                },
-                "name": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "uri": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "album_type",
-                "artists",
-                "external_urls",
-                "href",
-                "id",
-                "images",
-                "name",
-                "type",
-                "uri"
-            ],
-            "title": "album"
-        },
-        "ItemExternalIDS": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "isrc": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "isrc"
-            ],
-            "title": "external_ids"
-        },
-        "Track": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "artists": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Profile"
-                    }
-                },
-                "disc_number": {
+                "status": {
                     "type": "integer"
                 },
-                "duration_ms": {
-                    "type": "integer"
-                },
-                "explicit": {
-                    "type": "boolean"
-                },
-                "external_urls": {
-                    "$ref": "#/definitions/ExternalUrls"
-                },
-                "href": {
+                "message": {
                     "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "is_playable": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "preview_url": {
-                    "oneOf": [
-                        {
-                            "type": "null"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ],
-                    "title": "preview_url"
-                },
-                "track_number": {
-                    "type": "integer"
-                },
-                "type": {
-                    "type": "string",
-                    "enum": [
-                        "track"
-                    ],
-                    "title": "type"
-                },
-                "uri": {
-                    "type": "string"
-                },
-                "album": {
-                    "$ref": "#/definitions/PurpleAlbum"
-                },
-                "external_ids": {
-                    "$ref": "#/definitions/ItemExternalIDS"
-                },
-                "popularity": {
-                    "type": "integer"
-                },
-                "linked_from": {
-                    "$ref": "#/definitions/Profile"
                 }
             },
             "required": [
-                "artists",
-                "disc_number",
-                "duration_ms",
-                "explicit",
-                "external_urls",
-                "href",
-                "id",
-                "is_playable",
-                "name",
-                "preview_url",
-                "track_number",
-                "type",
-                "uri"
+                "message",
+                "status"
             ],
-            "title": "Track"
-        },
-        "AlbumTracks": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "href": {
-                    "type": "string"
-                },
-                "items": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Track"
-                    }
-                },
-                "limit": {
-                    "type": "integer"
-                },
-                "next": {
-                    "type": "null"
-                },
-                "offset": {
-                    "type": "integer"
-                },
-                "previous": {
-                    "type": "null"
-                },
-                "total": {
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "href",
-                "items",
-                "limit",
-                "next",
-                "offset",
-                "previous",
-                "total"
-            ],
-            "title": "tracks"
+            "title": "error"
         },
         "Album": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "album_type": {
-                    "type": "string"
-                },
-                "artists": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Profile"
-                    }
-                },
-                "copyrights": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Copyright"
-                    }
-                },
-                "external_ids": {
-                    "$ref": "#/definitions/AlbumExternalIDS"
-                },
-                "external_urls": {
-                    "$ref": "#/definitions/ExternalUrls"
-                },
-                "genres": {
-                    "type": "array",
-                    "items": {}
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "images": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Image"
-                    }
-                },
-                "label": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "popularity": {
-                    "type": "integer"
-                },
-                "release_date": {
-                    "type": "string",
-                    "format": "date"
-                },
-                "release_date_precision": {
-                    "type": "string"
-                },
-                "tracks": {
-                    "$ref": "#/definitions/AlbumTracks"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "uri": {
-                    "type": "string"
+                "error": {
+                    "$ref": "#/definitions/Error"
                 }
             },
             "required": [
-                "album_type",
-                "artists",
-                "copyrights",
-                "external_ids",
-                "external_urls",
-                "genres",
-                "href",
-                "id",
-                "images",
-                "label",
-                "name",
-                "popularity",
-                "release_date",
-                "release_date_precision",
-                "tracks",
-                "type",
-                "uri"
+                "error"
             ],
             "title": "Album"
         },
@@ -463,190 +66,53 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "external_urls": {
-                    "$ref": "#/definitions/ExternalUrls"
-                },
-                "followers": {
-                    "$ref": "#/definitions/Followers"
-                },
-                "genres": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "images": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Image"
-                    }
-                },
-                "name": {
-                    "type": "string"
-                },
-                "popularity": {
-                    "type": "integer"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "uri": {
-                    "type": "string"
+                "error": {
+                    "$ref": "#/definitions/Error"
                 }
             },
             "required": [
-                "external_urls",
-                "followers",
-                "genres",
-                "href",
-                "id",
-                "images",
-                "name",
-                "popularity",
-                "type",
-                "uri"
+                "error"
             ],
             "title": "Artist"
-        },
-        "Item": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "added_at": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "added_by": {
-                    "$ref": "#/definitions/Profile"
-                },
-                "is_local": {
-                    "type": "boolean"
-                },
-                "track": {
-                    "$ref": "#/definitions/Track"
-                }
-            },
-            "required": [
-                "added_at",
-                "added_by",
-                "is_local",
-                "track"
-            ],
-            "title": "item"
-        },
-        "PlaylistTracks": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "href": {
-                    "type": "string"
-                },
-                "items": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Item"
-                    }
-                },
-                "limit": {
-                    "type": "integer"
-                },
-                "next": {
-                    "type": "null"
-                },
-                "offset": {
-                    "type": "integer"
-                },
-                "previous": {
-                    "type": "null"
-                },
-                "total": {
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "href",
-                "items",
-                "limit",
-                "next",
-                "offset",
-                "previous",
-                "total"
-            ],
-            "title": "tracks"
         },
         "Playlist": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "collaborative": {
-                    "type": "boolean"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "external_urls": {
-                    "$ref": "#/definitions/ExternalUrls"
-                },
-                "followers": {
-                    "$ref": "#/definitions/Followers"
-                },
-                "href": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "images": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Image"
-                    }
-                },
-                "name": {
-                    "type": "string"
-                },
-                "owner": {
-                    "$ref": "#/definitions/Profile"
-                },
-                "public": {
-                    "type": "boolean"
-                },
-                "snapshot_id": {
-                    "type": "string"
-                },
-                "tracks": {
-                    "$ref": "#/definitions/PlaylistTracks"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "uri": {
-                    "type": "string"
+                "error": {
+                    "$ref": "#/definitions/Error"
                 }
             },
             "required": [
-                "collaborative",
-                "description",
-                "external_urls",
-                "followers",
-                "href",
-                "id",
-                "images",
-                "name",
-                "owner",
-                "public",
-                "snapshot_id",
-                "tracks",
-                "type",
-                "uri"
+                "error"
             ],
             "title": "Playlist"
+        },
+        "Profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "error": {
+                    "$ref": "#/definitions/Error"
+                }
+            },
+            "required": [
+                "error"
+            ],
+            "title": "Profile"
+        },
+        "Track": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "error": {
+                    "$ref": "#/definitions/Error"
+                }
+            },
+            "required": [
+                "error"
+            ],
+            "title": "Track"
         }
     }
 }

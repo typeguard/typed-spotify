@@ -14,10 +14,13 @@
 
 * [C#](csharp)
 * [Go](golang)
+* [Rust](rustlang)
 * [C++](cplusplus)
 * [Objective-C](objective-c)
 * [Java](java)
 * [TypeScript](typescript)
+* [JavaScript](javascript)
+* [Flow](flow)
 * [Swift](swift4)
 * [Elm](elm)
 * [JSON Schema](json-schema)
