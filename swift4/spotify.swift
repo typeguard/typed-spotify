@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Album: Codable {
+struct Track: Codable {
     let error: Error
 }
 
@@ -17,27 +17,11 @@ struct Error: Codable {
     let message: String
 }
 
-struct Artist: Codable {
-    let error: Error
-}
+// MARK: Convenience initializers and mutators
 
-struct Playlist: Codable {
-    let error: Error
-}
-
-struct Profile: Codable {
-    let error: Error
-}
-
-struct Track: Codable {
-    let error: Error
-}
-
-// MARK: Convenience initializers
-
-extension Album {
+extension Track {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(Album.self, from: data)
+        self = try newJSONDecoder().decode(Track.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -51,8 +35,16 @@ extension Album {
         try self.init(data: try Data(contentsOf: url))
     }
 
+    func with(
+        error: Error? = nil
+    ) -> Track {
+        return Track(
+            error: error ?? self.error
+        )
+    }
+
     func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
+        return try newJSONEncoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
@@ -62,7 +54,7 @@ extension Album {
 
 extension Error {
     init(data: Data) throws {
-        self = try JSONDecoder().decode(Error.self, from: data)
+        self = try newJSONDecoder().decode(Error.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -76,8 +68,18 @@ extension Error {
         try self.init(data: try Data(contentsOf: url))
     }
 
+    func with(
+        status: Int? = nil,
+        message: String? = nil
+    ) -> Error {
+        return Error(
+            status: status ?? self.status,
+            message: message ?? self.message
+        )
+    }
+
     func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
+        return try newJSONEncoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
@@ -85,102 +87,18 @@ extension Error {
     }
 }
 
-extension Artist {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Artist.self, from: data)
+func newJSONDecoder() -> JSONDecoder {
+    let decoder = JSONDecoder()
+    if #available(iOS 10.0, OSX 10.12, tvOS 10.0, watchOS 3.0, *) {
+        decoder.dateDecodingStrategy = .iso8601
     }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
+    return decoder
 }
 
-extension Playlist {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Playlist.self, from: data)
+func newJSONEncoder() -> JSONEncoder {
+    let encoder = JSONEncoder()
+    if #available(iOS 10.0, OSX 10.12, tvOS 10.0, watchOS 3.0, *) {
+        encoder.dateEncodingStrategy = .iso8601
     }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Profile {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Profile.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
-}
-
-extension Track {
-    init(data: Data) throws {
-        self = try JSONDecoder().decode(Track.self, from: data)
-    }
-
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
-        guard let data = json.data(using: encoding) else {
-            throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
-        }
-        try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func jsonData() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-
-    func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
-    }
+    return encoder
 }

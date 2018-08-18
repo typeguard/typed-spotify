@@ -1,17 +1,17 @@
 // To use this code, add the following Maven dependency to your project:
-// 
+//
 //     com.fasterxml.jackson.core : jackson-databind : 2.9.0
-// 
+//
 // Import this package:
-// 
+//
 //     import io.quicktype.Converter;
 //
 // Then you can deserialize a JSON string with
 //
-//     Album data = Converter.AlbumFromJsonString(jsonString);
-//     Artist data = Converter.ArtistFromJsonString(jsonString);
-//     Playlist data = Converter.PlaylistFromJsonString(jsonString);
-//     Profile data = Converter.ProfileFromJsonString(jsonString);
+//     Track data = Converter.AlbumFromJsonString(jsonString);
+//     Track data = Converter.ArtistFromJsonString(jsonString);
+//     Track data = Converter.PlaylistFromJsonString(jsonString);
+//     Track data = Converter.ProfileFromJsonString(jsonString);
 //     Track data = Converter.TrackFromJsonString(jsonString);
 
 package io.quicktype;
@@ -24,35 +24,35 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class Converter {
     // Serialize/deserialize helpers
 
-    public static Album AlbumFromJsonString(String json) throws IOException {
+    public static Track AlbumFromJsonString(String json) throws IOException {
         return getAlbumObjectReader().readValue(json);
     }
 
-    public static String AlbumToJsonString(Album obj) throws JsonProcessingException {
+    public static String AlbumToJsonString(Track obj) throws JsonProcessingException {
         return getAlbumObjectWriter().writeValueAsString(obj);
     }
 
-    public static Artist ArtistFromJsonString(String json) throws IOException {
+    public static Track ArtistFromJsonString(String json) throws IOException {
         return getArtistObjectReader().readValue(json);
     }
 
-    public static String ArtistToJsonString(Artist obj) throws JsonProcessingException {
+    public static String ArtistToJsonString(Track obj) throws JsonProcessingException {
         return getArtistObjectWriter().writeValueAsString(obj);
     }
 
-    public static Playlist PlaylistFromJsonString(String json) throws IOException {
+    public static Track PlaylistFromJsonString(String json) throws IOException {
         return getPlaylistObjectReader().readValue(json);
     }
 
-    public static String PlaylistToJsonString(Playlist obj) throws JsonProcessingException {
+    public static String PlaylistToJsonString(Track obj) throws JsonProcessingException {
         return getPlaylistObjectWriter().writeValueAsString(obj);
     }
 
-    public static Profile ProfileFromJsonString(String json) throws IOException {
+    public static Track ProfileFromJsonString(String json) throws IOException {
         return getProfileObjectReader().readValue(json);
     }
 
-    public static String ProfileToJsonString(Profile obj) throws JsonProcessingException {
+    public static String ProfileToJsonString(Track obj) throws JsonProcessingException {
         return getProfileObjectWriter().writeValueAsString(obj);
     }
 
@@ -69,17 +69,17 @@ public class Converter {
 
     private static void instantiateAlbumMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        AlbumReader = mapper.reader(Album.class);
-        AlbumWriter = mapper.writerFor(Album.class);
+        AlbumReader = mapper.reader(Track.class);
+        AlbumWriter = mapper.writerFor(Track.class);
     }
 
     private static ObjectReader getAlbumObjectReader() {
-        if (AlbumReader == null) instantiateMapper();
+        if (AlbumReader == null) instantiateAlbumMapper();
         return AlbumReader;
     }
 
     private static ObjectWriter getAlbumObjectWriter() {
-        if (AlbumWriter == null) instantiateMapper();
+        if (AlbumWriter == null) instantiateAlbumMapper();
         return AlbumWriter;
     }
 
@@ -88,17 +88,17 @@ public class Converter {
 
     private static void instantiateArtistMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        ArtistReader = mapper.reader(Artist.class);
-        ArtistWriter = mapper.writerFor(Artist.class);
+        ArtistReader = mapper.reader(Track.class);
+        ArtistWriter = mapper.writerFor(Track.class);
     }
 
     private static ObjectReader getArtistObjectReader() {
-        if (ArtistReader == null) instantiateMapper();
+        if (ArtistReader == null) instantiateArtistMapper();
         return ArtistReader;
     }
 
     private static ObjectWriter getArtistObjectWriter() {
-        if (ArtistWriter == null) instantiateMapper();
+        if (ArtistWriter == null) instantiateArtistMapper();
         return ArtistWriter;
     }
 
@@ -107,17 +107,17 @@ public class Converter {
 
     private static void instantiatePlaylistMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        PlaylistReader = mapper.reader(Playlist.class);
-        PlaylistWriter = mapper.writerFor(Playlist.class);
+        PlaylistReader = mapper.reader(Track.class);
+        PlaylistWriter = mapper.writerFor(Track.class);
     }
 
     private static ObjectReader getPlaylistObjectReader() {
-        if (PlaylistReader == null) instantiateMapper();
+        if (PlaylistReader == null) instantiatePlaylistMapper();
         return PlaylistReader;
     }
 
     private static ObjectWriter getPlaylistObjectWriter() {
-        if (PlaylistWriter == null) instantiateMapper();
+        if (PlaylistWriter == null) instantiatePlaylistMapper();
         return PlaylistWriter;
     }
 
@@ -126,17 +126,17 @@ public class Converter {
 
     private static void instantiateProfileMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        ProfileReader = mapper.reader(Profile.class);
-        ProfileWriter = mapper.writerFor(Profile.class);
+        ProfileReader = mapper.reader(Track.class);
+        ProfileWriter = mapper.writerFor(Track.class);
     }
 
     private static ObjectReader getProfileObjectReader() {
-        if (ProfileReader == null) instantiateMapper();
+        if (ProfileReader == null) instantiateProfileMapper();
         return ProfileReader;
     }
 
     private static ObjectWriter getProfileObjectWriter() {
-        if (ProfileWriter == null) instantiateMapper();
+        if (ProfileWriter == null) instantiateProfileMapper();
         return ProfileWriter;
     }
 
@@ -150,12 +150,12 @@ public class Converter {
     }
 
     private static ObjectReader getTrackObjectReader() {
-        if (TrackReader == null) instantiateMapper();
+        if (TrackReader == null) instantiateTrackMapper();
         return TrackReader;
     }
 
     private static ObjectWriter getTrackObjectWriter() {
-        if (TrackWriter == null) instantiateMapper();
+        if (TrackWriter == null) instantiateTrackMapper();
         return TrackWriter;
     }
 }

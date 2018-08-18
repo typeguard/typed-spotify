@@ -3,18 +3,18 @@
 // #[macro_use]
 // extern crate serde_derive;
 // extern crate serde_json;
-// 
-// use generated_module::Album;
-// 
+//
+// use generated_module::[object Object];
+//
 // fn main() {
 //     let json = r#"{"answer": 42}"#;
-//     let model: Album = serde_json::from_str(&json).unwrap();
+//     let model: [object Object] = serde_json::from_str(&json).unwrap();
 // }
 
 extern crate serde_json;
 
 #[derive(Serialize, Deserialize)]
-pub struct Album {
+pub struct Track {
     #[serde(rename = "error")]
     error: Error,
 }
@@ -26,28 +26,4 @@ pub struct Error {
 
     #[serde(rename = "message")]
     message: String,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct Artist {
-    #[serde(rename = "error")]
-    error: Error,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct Playlist {
-    #[serde(rename = "error")]
-    error: Error,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct Profile {
-    #[serde(rename = "error")]
-    error: Error,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct Track {
-    #[serde(rename = "error")]
-    error: Error,
 }

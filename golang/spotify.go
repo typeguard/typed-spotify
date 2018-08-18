@@ -69,27 +69,11 @@ func (r *Track) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-type Album struct {
+type Track struct {
 	Error Error `json:"error"`
 }
 
 type Error struct {
 	Status  int64  `json:"status"` 
 	Message string `json:"message"`
-}
-
-type Artist struct {
-	Error Error `json:"error"`
-}
-
-type Playlist struct {
-	Error Error `json:"error"`
-}
-
-type Profile struct {
-	Error Error `json:"error"`
-}
-
-type Track struct {
-	Error Error `json:"error"`
 }

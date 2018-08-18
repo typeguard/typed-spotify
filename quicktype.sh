@@ -8,8 +8,11 @@ quicktype data -o objective-c/spotify.m
 quicktype data -o java/spotify.java
 quicktype data -o typescript/spotify.ts
 quicktype data -o javascript/spotify.js
-quicktype data -o flow/spotify.flow
+quicktype data -o flow/spotify.js
 quicktype data -o swift4/spotify.swift
+quicktype data -o kotlin/spotify.kt
 quicktype data -o elm/spotify.elm
 quicktype data -o json-schema/spotify.schema
-quicktype data -o types/spotify.txt
+quicktype data -o ruby/spotify.rb
+quicktype data -o dart/spotify.dart
+quicktype data -o python/spotify.py

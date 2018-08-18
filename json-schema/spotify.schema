@@ -1,37 +1,19 @@
 {
-    "oneOf": [
-        [
-            "Album",
-            {
-                "$ref": "#/definitions/Album"
-            }
-        ],
-        [
-            "Artist",
-            {
-                "$ref": "#/definitions/Artist"
-            }
-        ],
-        [
-            "Playlist",
-            {
-                "$ref": "#/definitions/Playlist"
-            }
-        ],
-        [
-            "Profile",
-            {
-                "$ref": "#/definitions/Profile"
-            }
-        ],
-        [
-            "Track",
-            {
-                "$ref": "#/definitions/Track"
-            }
-        ]
-    ],
+    "$schema": "http://json-schema.org/draft-06/schema#",
     "definitions": {
+        "Track": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "error": {
+                    "$ref": "#/definitions/Error"
+                }
+            },
+            "required": [
+                "error"
+            ],
+            "title": "Track"
+        },
         "Error": {
             "type": "object",
             "additionalProperties": false,
@@ -47,72 +29,7 @@
                 "message",
                 "status"
             ],
-            "title": "error"
-        },
-        "Album": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "error": {
-                    "$ref": "#/definitions/Error"
-                }
-            },
-            "required": [
-                "error"
-            ],
-            "title": "Album"
-        },
-        "Artist": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "error": {
-                    "$ref": "#/definitions/Error"
-                }
-            },
-            "required": [
-                "error"
-            ],
-            "title": "Artist"
-        },
-        "Playlist": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "error": {
-                    "$ref": "#/definitions/Error"
-                }
-            },
-            "required": [
-                "error"
-            ],
-            "title": "Playlist"
-        },
-        "Profile": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "error": {
-                    "$ref": "#/definitions/Error"
-                }
-            },
-            "required": [
-                "error"
-            ],
-            "title": "Profile"
-        },
-        "Track": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "error": {
-                    "$ref": "#/definitions/Error"
-                }
-            },
-            "required": [
-                "error"
-            ],
-            "title": "Track"
+            "title": "Error"
         }
     }
 }

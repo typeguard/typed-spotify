@@ -1,9 +1,9 @@
 -- To decode the JSON data, add this file to your project, run
--- 
+--
 --     elm-package install NoRedInk/elm-decode-pipeline
--- 
+--
 -- add these imports
--- 
+--
 --     import Json.Decode exposing (decodeString)`);
 --     import QuickType exposing (album, artist, playlist, profile, track)
 --
@@ -40,7 +40,7 @@ import Json.Encode as Jenc
 import Dict exposing (Dict, map, toList)
 import Array exposing (Array, map)
 
-type alias Album =
+type alias Track =
     { error : Error
     }
 
@@ -49,46 +49,30 @@ type alias Error =
     , message : String
     }
 
-type alias Artist =
-    { error : Error
-    }
-
-type alias Playlist =
-    { error : Error
-    }
-
-type alias Profile =
-    { error : Error
-    }
-
-type alias Track =
-    { error : Error
-    }
-
 -- decoders and encoders
 
 albumToString : Album -> String
-albumToString r = Jenc.encode 0 (encodeAlbum r)
+albumToString r = Jenc.encode 0 (encodeTrack r)
 
 artistToString : Artist -> String
-artistToString r = Jenc.encode 0 (encodeArtist r)
+artistToString r = Jenc.encode 0 (encodeTrack r)
 
 playlistToString : Playlist -> String
-playlistToString r = Jenc.encode 0 (encodePlaylist r)
+playlistToString r = Jenc.encode 0 (encodeTrack r)
 
 profileToString : Profile -> String
-profileToString r = Jenc.encode 0 (encodeProfile r)
+profileToString r = Jenc.encode 0 (encodeTrack r)
 
 trackToString : Track -> String
 trackToString r = Jenc.encode 0 (encodeTrack r)
 
-album : Jdec.Decoder Album
-album =
-    Jpipe.decode Album
+track : Jdec.Decoder Track
+track =
+    Jpipe.decode Track
         |> Jpipe.required "error" error
 
-encodeAlbum : Album -> Jenc.Value
-encodeAlbum x =
+encodeTrack : Track -> Jenc.Value
+encodeTrack x =
     Jenc.object
         [ ("error", encodeError x.error)
         ]
@@ -104,50 +88,6 @@ encodeError x =
     Jenc.object
         [ ("status", Jenc.int x.status)
         , ("message", Jenc.string x.message)
-        ]
-
-artist : Jdec.Decoder Artist
-artist =
-    Jpipe.decode Artist
-        |> Jpipe.required "error" error
-
-encodeArtist : Artist -> Jenc.Value
-encodeArtist x =
-    Jenc.object
-        [ ("error", encodeError x.error)
-        ]
-
-playlist : Jdec.Decoder Playlist
-playlist =
-    Jpipe.decode Playlist
-        |> Jpipe.required "error" error
-
-encodePlaylist : Playlist -> Jenc.Value
-encodePlaylist x =
-    Jenc.object
-        [ ("error", encodeError x.error)
-        ]
-
-profile : Jdec.Decoder Profile
-profile =
-    Jpipe.decode Profile
-        |> Jpipe.required "error" error
-
-encodeProfile : Profile -> Jenc.Value
-encodeProfile x =
-    Jenc.object
-        [ ("error", encodeError x.error)
-        ]
-
-track : Jdec.Decoder Track
-track =
-    Jpipe.decode Track
-        |> Jpipe.required "error" error
-
-encodeTrack : Track -> Jenc.Value
-encodeTrack x =
-    Jenc.object
-        [ ("error", encodeError x.error)
         ]
 
 --- encoder helpers
